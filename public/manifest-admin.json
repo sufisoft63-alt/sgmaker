@@ -1,0 +1,32 @@
+{
+  "id": "com.sgmaker.admin",
+  "name": "SG Maker Admin - Studio Operations Portal",
+  "short_name": "SGM Admin",
+  "description": "SG Maker Studio Administration & Inventory Management Portal for Sufisoft Developer & Admins.",
+  "icons": [
+    {
+      "src": "/admin-icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/admin-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/admin-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/?mode=admin",
+  "background_color": "#070b14",
+  "theme_color": "#06b6d4",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/"
+}

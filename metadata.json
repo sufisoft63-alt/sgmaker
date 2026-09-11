@@ -1,0 +1,10 @@
+{
+  "name": "SG Maker",
+  "description": "Professional Gaming Studio, Game Development Services, and Mobile Accessories Ecommerce with Express Delivery.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

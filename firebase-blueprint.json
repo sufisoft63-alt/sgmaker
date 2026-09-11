@@ -1,0 +1,259 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with personal identity and role information",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 64 },
+        "username": { "type": "string", "maxLength": 64 },
+        "fullName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "country": { "type": "string", "maxLength": 60 },
+        "countryCode": { "type": "string", "maxLength": 10 },
+        "profilePhoto": { "type": "string", "maxLength": 500 },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "username", "fullName", "role"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Gaming accessory product in ecommerce shop",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string", "maxLength": 64 },
+        "categorySlug": { "type": "string", "maxLength": 64 },
+        "price": { "type": "number" },
+        "discountPrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "rating": { "type": "number" },
+        "description": { "type": "string", "maxLength": 2000 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["name", "category", "price", "stock", "active"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase order",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 64 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "customerEmail": { "type": "string", "maxLength": 128 },
+        "customerPhone": { "type": "string", "maxLength": 30 },
+        "total": { "type": "number" },
+        "subtotal": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "paymentMethod": { "type": "string", "maxLength": 40 },
+        "orderStatus": { "type": "string", "maxLength": 40 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["userId", "customerName", "customerPhone", "total", "orderStatus"]
+    },
+    "ServiceRequest": {
+      "title": "ServiceRequest",
+      "description": "Gaming development inquiry from client",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "projectTitle": { "type": "string", "maxLength": 150 },
+        "gameType": { "type": "string", "maxLength": 64 },
+        "platform": { "type": "string", "maxLength": 64 },
+        "budget": { "type": "string", "maxLength": 64 },
+        "description": { "type": "string", "maxLength": 3000 },
+        "status": { "type": "string", "maxLength": 40 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["name", "email", "phone", "projectTitle", "gameType", "status"]
+    },
+    "Address": {
+      "title": "Address",
+      "description": "Saved delivery address for checkout",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "type": { "type": "string", "maxLength": 20 },
+        "city": { "type": "string", "maxLength": 64 },
+        "fullAddress": { "type": "string", "maxLength": 300 },
+        "isDefault": { "type": "boolean" }
+      },
+      "required": ["userId", "name", "phone", "city", "fullAddress"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Customer review for verified purchased product",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string", "maxLength": 64 },
+        "userId": { "type": "string", "maxLength": 64 },
+        "userName": { "type": "string", "maxLength": 100 },
+        "userPhoto": { "type": "string", "maxLength": 500 },
+        "userHandle": { "type": "string", "maxLength": 64 },
+        "rating": { "type": "number" },
+        "comment": { "type": "string", "maxLength": 1000 },
+        "verifiedPurchase": { "type": "boolean" },
+        "orderId": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["productId", "userId", "userName", "rating", "comment"]
+    },
+    "News": {
+      "title": "News",
+      "description": "Live editorial gaming news article",
+      "type": "object",
+      "properties": {
+        "newsId": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 200 },
+        "shortDescription": { "type": "string", "maxLength": 500 },
+        "fullDescription": { "type": "string", "maxLength": 5000 },
+        "image": { "type": "string", "maxLength": 500 },
+        "category": { "type": "string", "maxLength": 64 },
+        "author": { "type": "string", "maxLength": 100 },
+        "active": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "priority": { "type": "number" },
+        "publishedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["title", "shortDescription", "category", "active"]
+    },
+    "Offer": {
+      "title": "Offer",
+      "description": "Live promotional discount offer",
+      "type": "object",
+      "properties": {
+        "offerId": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "image": { "type": "string", "maxLength": 500 },
+        "discountType": { "type": "string", "maxLength": 40 },
+        "discountValue": { "type": "number" },
+        "couponCode": { "type": "string", "maxLength": 40 },
+        "startDate": { "type": "string", "maxLength": 64 },
+        "endDate": { "type": "string", "maxLength": 64 },
+        "active": { "type": "boolean" },
+        "featured": { "type": "boolean" }
+      },
+      "required": ["title", "discountType", "discountValue", "active"]
+    },
+    "FlashDeal": {
+      "title": "FlashDeal",
+      "description": "Live countdown flash sale deal",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 150 },
+        "oldPrice": { "type": "number" },
+        "salePrice": { "type": "number" },
+        "discountPercent": { "type": "number" },
+        "stockRemaining": { "type": "number" },
+        "maxStock": { "type": "number" },
+        "startDate": { "type": "string", "maxLength": 64 },
+        "endDate": { "type": "string", "maxLength": 64 },
+        "active": { "type": "boolean" }
+      },
+      "required": ["productId", "title", "oldPrice", "salePrice", "active"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Realtime notification bar announcement",
+      "type": "object",
+      "properties": {
+        "announcementId": { "type": "string", "maxLength": 64 },
+        "text": { "type": "string", "maxLength": 500 },
+        "icon": { "type": "string", "maxLength": 40 },
+        "priority": { "type": "string", "maxLength": 20 },
+        "type": { "type": "string", "maxLength": 64 },
+        "active": { "type": "boolean" }
+      },
+      "required": ["text", "active"]
+    },
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "Live application settings and maintenance mode controls",
+      "type": "object",
+      "properties": {
+        "appName": { "type": "string", "maxLength": 64 },
+        "tagline": { "type": "string", "maxLength": 150 },
+        "maintenanceMode": { "type": "boolean" },
+        "maintenanceMessage": { "type": "string", "maxLength": 500 },
+        "latestVersion": { "type": "string", "maxLength": 20 },
+        "forceUpdate": { "type": "boolean" }
+      },
+      "required": ["appName", "maintenanceMode"]
+    },
+    "AdminLog": {
+      "title": "AdminLog",
+      "description": "Audit log entry of developer/admin actions",
+      "type": "object",
+      "properties": {
+        "adminId": { "type": "string", "maxLength": 64 },
+        "adminName": { "type": "string", "maxLength": 100 },
+        "action": { "type": "string", "maxLength": 100 },
+        "targetType": { "type": "string", "maxLength": 40 },
+        "targetId": { "type": "string", "maxLength": 64 },
+        "timestamp": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["adminId", "action", "targetType", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents keyed by Auth UID"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Store inventory products"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer purchase orders"
+    },
+    "/serviceRequests/{requestId}": {
+      "schema": "ServiceRequest",
+      "description": "Game development custom project requests"
+    },
+    "/addresses/{addressId}": {
+      "schema": "Address",
+      "description": "Customer saved shipping addresses"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Customer reviews for products"
+    },
+    "/news/{newsId}": {
+      "schema": "News",
+      "description": "Editorial live gaming news"
+    },
+    "/offers/{offerId}": {
+      "schema": "Offer",
+      "description": "Live discounts and promotional offers"
+    },
+    "/flashDeals/{dealId}": {
+      "schema": "FlashDeal",
+      "description": "Timed flash deals with remaining stock countdown"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Top bar live announcements"
+    },
+    "/appSettings/{settingId}": {
+      "schema": "AppSettings",
+      "description": "Application configuration and maintenance switch"
+    },
+    "/adminLogs/{logId}": {
+      "schema": "AdminLog",
+      "description": "Developer and admin audit history logs"
+    }
+  }
+}

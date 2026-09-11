@@ -1,0 +1,155 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all unknown paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        exists(/databases/$(database)/documents/roles/$(request.auth.uid)) ||
+        (request.auth.token.email != null && (request.auth.token.email == 'sufisoft63@gmail.com' || request.auth.token.email.matches('.*admin.*') || request.auth.token.email.matches('.*dev.*')))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // USERS COLLECTION
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && request.resource.data.userId is string;
+      allow update: if (isOwner(userId) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role'])) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // PRODUCTS COLLECTION
+    match /products/{productId} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // CATEGORIES COLLECTION
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // SERVICES COLLECTION
+    match /services/{serviceId} {
+      allow read: if resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // SERVICE REQUESTS COLLECTION
+    match /serviceRequests/{requestId} {
+      allow create: if true; // Clients can submit game project inquiries
+      allow read, update, delete: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+    }
+
+    // ORDERS COLLECTION
+    match /orders/{orderId} {
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    // ADDRESSES COLLECTION
+    match /addresses/{addressId} {
+      allow read, write: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+    }
+
+    // REVIEWS COLLECTION
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isSignedIn() && (request.resource.data.userId == request.auth.uid || request.resource.data.userUid == request.auth.uid);
+      allow update, delete: if isAdmin() || (isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.userUid == request.auth.uid));
+    }
+
+    // BANNERS COLLECTION
+    match /banners/{bannerId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // NOTIFICATIONS COLLECTION
+    match /notifications/{notifId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.userId == 'all');
+      allow update: if isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.userId == 'all');
+      allow write: if isAdmin();
+    }
+
+    // DELIVERY AREAS COLLECTION
+    match /deliveryAreas/{areaId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // NEWS COLLECTION
+    match /news/{newsId} {
+      allow read: if resource == null || resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // OFFERS COLLECTION
+    match /offers/{offerId} {
+      allow read: if resource == null || resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // FLASH DEALS COLLECTION
+    match /flashDeals/{dealId} {
+      allow read: if resource == null || resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ANNOUNCEMENTS COLLECTION
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // APP SETTINGS COLLECTION
+    match /appSettings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ADMIN AUDIT LOGS COLLECTION
+    match /adminLogs/{logId} {
+      allow read, write: if isAdmin();
+    }
+
+    // MEDIA LIBRARY COLLECTION
+    match /media/{mediaId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ROLES COLLECTION
+    match /roles/{roleId} {
+      allow read, write: if isAdmin();
+    }
+
+    // CONTACT MESSAGES
+    match /contactMessages/{messageId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}
